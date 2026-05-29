@@ -1,13 +1,13 @@
 'use client';
 
-import { useActionState, useState, useEffect } from 'react';
+import { useActionState, useState, useEffect, Suspense } from 'react';
 import { loginAction, signupAction } from '@/app/utils/actions';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Mail, Lock, User } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 
-export default function AuthPage() {
+function AuthContent() {
   const searchParams = useSearchParams();
   const [isLogin, setIsLogin] = useState(() => {
     return searchParams.get('mode') !== 'signup';
@@ -202,5 +202,17 @@ export default function AuthPage() {
 
       </div>
     </div>
+  );
+}
+
+export default function AuthPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 sm:p-8">
+        <div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    }>
+      <AuthContent />
+    </Suspense>
   );
 }
