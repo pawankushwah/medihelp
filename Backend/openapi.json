@@ -1,0 +1,212 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Medi-Help API",
+    "version": "1.0.0",
+    "description": "API documentation for Medi-Help Backend"
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "tags": ["General"],
+        "security": [],
+        "responses": {
+          "200": { "description": "Server is running smoothly" }
+        }
+      }
+    },
+    "/seeUsers": {
+      "get": {
+        "summary": "Get all users (for testing)",
+        "tags": ["General"],
+        "security": [],
+        "responses": {
+          "200": { "description": "List of users" }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "Register a new user",
+        "tags": ["Auth"],
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string" },
+                  "password": { "type": "string" },
+                  "phone": { "type": "string" },
+                  "role": { "type": "string", "enum": ["patient", "doctor", "institution"] },
+                  "city": { "type": "string" },
+                  "patientProfile": { 
+                    "type": "object",
+                    "properties": {
+                      "bloodType": { "type": "string" },
+                      "isAvailableToDonate": { "type": "boolean" },
+                      "lastDonationDate": { "type": "string", "format": "date" }
+                    }
+                  },
+                  "doctorProfile": {
+                    "type": "object",
+                    "properties": {
+                      "specialization": { "type": "string" },
+                      "availabilitySlots": { "type": "string" }
+                    }
+                  },
+                  "institutionProfile": {
+                    "type": "object",
+                    "properties": {
+                      "institutionType": { "type": "string" },
+                      "registrationNumber": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "User registered successfully" }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login user",
+        "tags": ["Auth"],
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Login successful" }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "summary": "Get current authenticated user",
+        "tags": ["Auth"],
+        "responses": {
+          "200": { "description": "Returns user info" }
+        }
+      }
+    },
+    "/auth/patient-dashboard": {
+      "get": {
+        "summary": "Patient dashboard portal",
+        "tags": ["Auth"],
+        "responses": {
+          "200": { "description": "Welcome message for patient" }
+        }
+      }
+    },
+    "/health/log": {
+      "post": {
+        "summary": "Create a health log (patient only)",
+        "tags": ["Health"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "logType": { "type": "string", "enum": ["vitals", "medical_summary"] },
+                  "vitalsData": { "type": "object" },
+                  "summaryData": { "type": "object" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Log created" }
+        }
+      }
+    },
+    "/health/history": {
+      "get": {
+        "summary": "Get health history logs (patient only)",
+        "tags": ["Health"],
+        "responses": {
+          "200": { "description": "List of health logs" }
+        }
+      }
+    },
+    "/doctor/search-patient": {
+      "get": {
+        "summary": "Search patient records (doctor only)",
+        "tags": ["Doctor"],
+        "parameters": [
+          {
+            "name": "searchKey",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Username, email or phone of the patient"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Patient records and logs" }
+        }
+      }
+    },
+    "/doctor/review": {
+      "post": {
+        "summary": "Create doctor review (doctor only)",
+        "tags": ["Doctor"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "patientId": { "type": "string" },
+                  "comments": { "type": "string" },
+                  "prescription": { "type": "string" },
+                  "followUpDate": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Review created" }
+        }
+      }
+    }
+  }
+}

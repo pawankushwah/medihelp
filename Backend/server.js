@@ -5,7 +5,11 @@ const connectDB = require('./Config/db'); // Import the DB connector
 const authRoutes = require('./Routes/RegistrationRoute'); // Import the Auth routes
 const healthRoutes = require('./Routes/HealthRoute'); // Import the Health routes
 const doctorRoutes = require('./Routes/DoctorRoute'); // Import the Doctor routes
+const { apiReference } = require('@scalar/express-api-reference');
+const fs = require('fs');
+const path = require('path');
 
+const openapiSpec = JSON.parse(fs.readFileSync(path.join(__dirname, 'openapi.json'), 'utf8'));
 
 dotenv.config();
 
@@ -19,11 +23,18 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Scalar API Reference
+app.use('/docs', apiReference({
+    theme: 'default',
+    spec: {
+        content: openapiSpec,
+    },
+}));
 
 app.get('/health', (req, res) => {
-    res.status(200).json({ 
-        status: 'success', 
-        message: 'Medi-Help Backend Server is running smoothly!' 
+    res.status(200).json({
+        status: 'success',
+        message: 'Medi-Help Backend Server is running smoothly!'
     });
 });
 
@@ -39,16 +50,16 @@ app.get('/seeUsers', async (req, res) => {
     try {
         // Fetch all users from the database, hiding the password hashes for safety
         const users = await User.find({}).select('-password');
-        
+
         res.status(200).json({
             count: users.length,
             status: 'success',
             data: users
         });
     } catch (error) {
-        res.status(500).json({ 
-            message: 'Error fetching trial data', 
-            error: error.message 
+        res.status(500).json({
+            message: 'Error fetching trial data',
+            error: error.message
         });
     }
 });
