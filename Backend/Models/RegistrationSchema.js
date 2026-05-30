@@ -31,6 +31,17 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, 'City is required']
     },
+    location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            default: 'Point'
+        },
+        coordinates: {
+            type: [Number], // [longitude, latitude]
+            default: [0, 0]
+        }
+    },
 
     // ==========================================
     // 2. PATIENT PROFILE (Only used if role = 'patient')
@@ -42,7 +53,8 @@ const UserSchema = new mongoose.Schema({
             default: 'Unknown'
         },
         isAvailableToDonate: { type: Boolean, default: false },
-        lastDonationDate: { type: Date, default: null }
+        lastDonationDate: { type: Date, default: null },
+        medicalHistory: { type: String, default: '' } // Any constraints for blood donation
     },
 
     // ==========================================
@@ -63,9 +75,22 @@ const UserSchema = new mongoose.Schema({
             default: 'Hospital'
         },
         registrationNumber: { type: String, default: '' }
-    }
+    },
+
+    // ==========================================
+    // 5. PUSH NOTIFICATION SUBSCRIPTIONS
+    // ==========================================
+    pushSubscriptions: [{
+        endpoint: String,
+        keys: {
+            p256dh: String,
+            auth: String
+        }
+    }]
 }, {
     timestamps: true
 });
+
+UserSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model('User', UserSchema);
