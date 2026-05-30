@@ -1,19 +1,11 @@
-<<<<<<< HEAD
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import AuthPage from './pages/AuthPage';
 import PatientDashboard from './pages/PatientDashboard';
 import DoctorDashboard from './pages/DoctorDashboard';
 import InstitutionDashboard from './pages/InstitutionDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
-=======
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
 import PushTester from './PushTester';
->>>>>>> bec892b0c7f6e8e7eb28961080916fb641f67672
+import './App.css';
 
 function App() {
   return (
@@ -22,7 +14,6 @@ function App() {
         {/* Authentication Page (Login/Registration) */}
         <Route path="/" element={<AuthPage />} />
 
-<<<<<<< HEAD
         {/* Protected Patient Dashboard */}
         <Route 
           path="/patient" 
@@ -32,12 +23,6 @@ function App() {
             </ProtectedRoute>
           } 
         />
-=======
-      <div className="ticks"></div>
-      
-      {/* Test Web Push Integration */}
-      <PushTester />
->>>>>>> bec892b0c7f6e8e7eb28961080916fb641f67672
 
         {/* Protected Doctor Dashboard */}
         <Route 
@@ -56,6 +41,17 @@ function App() {
             <ProtectedRoute allowedRoles={['institution']}>
               <InstitutionDashboard />
             </ProtectedRoute>
+          } 
+        />
+
+        {/* Test Web Push Integration */}
+        <Route 
+          path="/push-test" 
+          element={
+            <>
+              <div className="ticks"></div>
+              <PushTester />
+            </>
           } 
         />
 
