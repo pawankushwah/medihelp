@@ -26,9 +26,9 @@ const TopAppBar = ({ onSearchChange, searchPlaceholder = "Search records..." }) 
   };
 
   return (
-    <header className="flex justify-between items-center w-full h-16 px-gutter max-w-[calc(100%-16rem)] fixed top-0 bg-surface border-b border-outline-variant z-40 bg-surface-container-lowest">
+    <header className="flex justify-between items-center w-full h-16 pl-16 pr-gutter md:px-gutter md:max-w-[calc(100%-16rem)] fixed top-0 bg-surface border-b border-outline-variant z-40 bg-surface-container-lowest">
       <div className="flex items-center gap-md">
-        <span className="font-headline-sm text-headline-sm font-bold text-primary">Medihelp</span>
+        <span className="font-headline-sm text-headline-sm font-bold text-primary hidden sm:inline">Medihelp</span>
         {getRoleBadge()}
       </div>
 
@@ -46,9 +46,9 @@ const TopAppBar = ({ onSearchChange, searchPlaceholder = "Search records..." }) 
         )}
 
         <div className="flex items-center gap-md text-on-surface-variant">
-          <span className="font-label-md text-label-md hover:text-primary cursor-pointer transition-colors">Support</span>
-          <button className="material-symbols-outlined hover:text-primary transition-colors">notifications</button>
-          <button className="material-symbols-outlined hover:text-primary transition-colors">help</button>
+          <span className="font-label-md text-label-md hover:text-primary cursor-pointer transition-colors hidden sm:inline">Support</span>
+          <button className="material-symbols-outlined hover:text-primary transition-colors hidden sm:inline">notifications</button>
+          <button className="material-symbols-outlined hover:text-primary transition-colors hidden sm:inline">help</button>
 
           <div className="h-8 w-8 rounded-full bg-primary-fixed overflow-hidden border border-outline-variant">
             <img

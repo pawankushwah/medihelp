@@ -88,7 +88,7 @@ const InstitutionDashboard = () => {
       {/* Side Navigation */}
       <SideNavBar />
 
-      <div className="flex-1 flex flex-col ml-64">
+      <div className="flex-1 flex flex-col w-full md:ml-64 transition-all duration-300">
         {/* Top Header */}
         <TopAppBar />
 

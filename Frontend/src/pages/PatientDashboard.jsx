@@ -10,7 +10,7 @@ const PatientDashboard = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTab, setModalTab] = useState('vitals'); // 'vitals' or 'summary'
   const [filterType, setFilterType] = useState('all'); // 'all', 'vitals', 'summary'
-  
+
   // Vitals form state
   const [heartRate, setHeartRate] = useState('');
   const [bloodPressure, setBloodPressure] = useState('');
@@ -112,7 +112,7 @@ const PatientDashboard = () => {
     setModalSuccess('');
 
     const token = localStorage.getItem('token');
-    
+
     let payload = {};
     if (modalTab === 'vitals') {
       payload = {
@@ -190,12 +190,12 @@ const PatientDashboard = () => {
       <SideNavBar onAddRecordClick={handleOpenModal} />
 
       {/* Top Header & Content Canvas */}
-      <div className="flex-1 flex flex-col ml-64">
+      <div className="flex-1 flex flex-col w-full md:ml-64 transition-all duration-300">
         <TopAppBar />
 
         <main className="pt-20 px-gutter pb-xl flex-grow">
           <div className="max-w-container-max mx-auto py-md">
-            
+
             {/* Welcome Banner */}
             <section className="mb-xl relative overflow-hidden rounded-xl bg-primary-container text-on-primary p-xl clinic-shadow">
               <div className="relative z-10">
@@ -208,12 +208,12 @@ const PatientDashboard = () => {
             </section>
 
             <div className="bento-grid">
-              
+
               {/* Quick Actions & Activity Feed */}
               <div className="col-span-12 lg:col-span-8 space-y-lg">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-lg">
                   {/* Add Health Record Action */}
-                  <div 
+                  <div
                     onClick={handleOpenModal}
                     className="group bg-surface-container-lowest border border-outline-variant p-lg rounded-xl clinic-shadow hover:border-primary transition-all cursor-pointer hover:-translate-y-0.5 duration-300"
                   >
@@ -231,20 +231,20 @@ const PatientDashboard = () => {
                     </div>
                     <h3 className="font-headline-sm text-headline-sm mb-xs">Filter History</h3>
                     <div className="flex gap-xs mt-sm bg-surface-container p-xs rounded-lg">
-                      <button 
-                        onClick={() => setFilterType('all')} 
+                      <button
+                        onClick={() => setFilterType('all')}
                         className={`flex-1 py-xs rounded text-[11px] font-bold uppercase transition-all ${filterType === 'all' ? 'bg-surface-container-lowest shadow-sm text-primary' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
                       >
                         All
                       </button>
-                      <button 
-                        onClick={() => setFilterType('vitals')} 
+                      <button
+                        onClick={() => setFilterType('vitals')}
                         className={`flex-1 py-xs rounded text-[11px] font-bold uppercase transition-all ${filterType === 'vitals' ? 'bg-surface-container-lowest shadow-sm text-primary' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
                       >
                         Vitals
                       </button>
-                      <button 
-                        onClick={() => setFilterType('summary')} 
+                      <button
+                        onClick={() => setFilterType('summary')}
                         className={`flex-1 py-xs rounded text-[11px] font-bold uppercase transition-all ${filterType === 'summary' ? 'bg-surface-container-lowest shadow-sm text-primary' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
                       >
                         Summaries
@@ -270,8 +270,8 @@ const PatientDashboard = () => {
                       filteredLogs.map((log) => {
                         const isVitals = log.logType === 'vitals';
                         return (
-                          <div 
-                            key={log._id} 
+                          <div
+                            key={log._id}
                             className={`flex items-start gap-md p-md bg-surface-container-low rounded-lg border-l-4 ${isVitals ? 'border-secondary' : 'border-tertiary'} hover:scale-[1.01] transition-all`}
                           >
                             <div className={`p-sm rounded-full ${isVitals ? 'bg-secondary-fixed text-on-secondary-fixed' : 'bg-tertiary-fixed text-on-tertiary-fixed-variant'}`}>
@@ -279,7 +279,7 @@ const PatientDashboard = () => {
                                 {isVitals ? 'biotech' : 'pill'}
                               </span>
                             </div>
-                            
+
                             <div className="flex-1">
                               <div className="flex justify-between">
                                 <h4 className="font-label-md text-label-md text-on-surface font-semibold">
@@ -343,23 +343,23 @@ const PatientDashboard = () => {
 
               {/* Sidebar Info Panels */}
               <div className="col-span-12 lg:col-span-4 space-y-lg">
-                
+
                 {/* Profile Card */}
                 <div id="profile" className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden clinic-shadow">
                   <div className="h-24 bg-secondary relative">
-                    <img 
-                      alt="Clinic Office" 
-                      className="w-full h-full object-cover opacity-40" 
+                    <img
+                      alt="Clinic Office"
+                      className="w-full h-full object-cover opacity-40"
                       src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKafJZJ-1qwQSv9AXk6sZy_cEi5V9otuhRUDcvDeMGTp2qvOkYOzgvJJSKxiQxi8qFt7GjcSA0gXUgs2n4b2iiSAit4UQYU_kpEET3jbFn5TjHvk0RG5b4k56iJlyLjzMKt0x6xHYMddlu6g370TuM8KSPp4N7C-fRjtfrIfN6lF-kUQzYKF69mWtWr95ceu-Rv8z1rqSN8uQ4h1dNq1GuwcPTQI18weuK6VPMuvHvuQy6cxrQUe6QteIcT3vsqyQcQC1KiDF-n-0"
                     />
                   </div>
-                  
+
                   <div className="px-lg pb-lg">
                     <div className="-mt-12 mb-md relative inline-block">
                       <div className="h-24 w-24 rounded-full border-4 border-surface-container-lowest overflow-hidden bg-primary-fixed">
-                        <img 
-                          alt={patientName} 
-                          className="w-full h-full object-cover" 
+                        <img
+                          alt={patientName}
+                          className="w-full h-full object-cover"
                           src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXUXX-tsNe4FrlMVt_FD9lWMQl67zv4Yju0cq1LLyK_tUNHOKSndQl_lPLDdfDLpRQWclIdcqGZ6R7tCOc9DzFGwfwQipDBUQj-4ffICgYreSiT62ARCsV4sQxC7v92nj_jx_8tCejycb2GZVXU1uc1BM3rzQR_UUFPQTVYvDQqI23oQFK9q6F93_9WODZLTYVnrQ8urGMq_ThcTrKOXlxJ5MJXZByMlOFu-Pejlmw2QA8YpWkyUd5-ExzMyYWjwB4QLWycwAA2wg"
                         />
                       </div>
@@ -368,7 +368,7 @@ const PatientDashboard = () => {
 
                     <h3 className="font-headline-sm text-headline-sm mb-xs">{patientName}</h3>
                     <p className="font-body-sm text-on-surface-variant mb-lg">Patient ID: {patientId}</p>
-                    
+
                     <div className="space-y-md border-t border-outline-variant pt-lg">
                       <div className="flex justify-between items-center">
                         <span className="font-label-sm text-label-sm text-on-surface-variant">Email</span>
@@ -384,13 +384,12 @@ const PatientDashboard = () => {
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="font-label-sm text-label-sm text-on-surface-variant">Donation Status</span>
-                        <button 
+                        <button
                           onClick={handleToggleDonation}
-                          className={`font-body-sm font-bold flex items-center gap-xs px-sm py-1 rounded transition-colors ${
-                            isAvailableToDonate 
-                              ? 'text-tertiary bg-tertiary-fixed/30 hover:bg-tertiary-fixed/50' 
-                              : 'text-outline bg-surface-container hover:bg-surface-container-high'
-                          }`}
+                          className={`font-body-sm font-bold flex items-center gap-xs px-sm py-1 rounded transition-colors ${isAvailableToDonate
+                            ? 'text-tertiary bg-tertiary-fixed/30 hover:bg-tertiary-fixed/50'
+                            : 'text-outline bg-surface-container hover:bg-surface-container-high'
+                            }`}
                         >
                           <span className="material-symbols-outlined text-sm">volunteer_activism</span>
                           {isAvailableToDonate ? 'Active Donor' : 'Inactive'}
@@ -424,7 +423,7 @@ const PatientDashboard = () => {
 
       {/* Overlay Form Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 bg-on-background/40 backdrop-blur-sm z-50 flex items-center justify-center p-md">
+        <div className="fixed inset-0 bg-on-background/40 backdrop-blur-sm z-[100] flex items-center justify-center p-md">
           <div className="bg-surface-container-lowest border border-outline-variant rounded-xl max-w-[500px] w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             {/* Modal Header */}
             <div className="p-lg bg-surface border-b border-outline-variant flex justify-between items-center">
@@ -432,7 +431,7 @@ const PatientDashboard = () => {
                 <span className="material-symbols-outlined text-[26px]">medical_information</span>
                 Add Health Record
               </h3>
-              <button 
+              <button
                 onClick={handleCloseModal}
                 className="text-on-surface-variant hover:text-primary transition-colors h-8 w-8 flex items-center justify-center rounded-full hover:bg-surface-container"
               >
@@ -445,18 +444,16 @@ const PatientDashboard = () => {
               <button
                 type="button"
                 onClick={() => setModalTab('vitals')}
-                className={`flex-1 py-sm font-label-md text-label-md text-center transition-colors hover:bg-surface-container-high ${
-                  modalTab === 'vitals' ? 'text-primary bg-surface-container border-b-2 border-primary font-bold' : 'text-on-surface-variant'
-                }`}
+                className={`flex-1 py-sm font-label-md text-label-md text-center transition-colors hover:bg-surface-container-high ${modalTab === 'vitals' ? 'text-primary bg-surface-container border-b-2 border-primary font-bold' : 'text-on-surface-variant'
+                  }`}
               >
                 Vitals Data
               </button>
               <button
                 type="button"
                 onClick={() => setModalTab('summary')}
-                className={`flex-1 py-sm font-label-md text-label-md text-center transition-colors hover:bg-surface-container-high ${
-                  modalTab === 'summary' ? 'text-primary bg-surface-container border-b-2 border-primary font-bold' : 'text-on-surface-variant'
-                }`}
+                className={`flex-1 py-sm font-label-md text-label-md text-center transition-colors hover:bg-surface-container-high ${modalTab === 'summary' ? 'text-primary bg-surface-container border-b-2 border-primary font-bold' : 'text-on-surface-variant'
+                  }`}
               >
                 Medical Summary
               </button>
@@ -481,7 +478,7 @@ const PatientDashboard = () => {
                   <div className="grid grid-cols-2 gap-md">
                     <div>
                       <label className="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Heart Rate (bpm)</label>
-                      <input 
+                      <input
                         type="number"
                         value={heartRate}
                         onChange={(e) => setHeartRate(e.target.value)}
@@ -491,7 +488,7 @@ const PatientDashboard = () => {
                     </div>
                     <div>
                       <label className="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Blood Pressure</label>
-                      <input 
+                      <input
                         type="text"
                         value={bloodPressure}
                         onChange={(e) => setBloodPressure(e.target.value)}
@@ -503,7 +500,7 @@ const PatientDashboard = () => {
                   <div className="grid grid-cols-2 gap-md">
                     <div>
                       <label className="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Sugar Level (mg/dL)</label>
-                      <input 
+                      <input
                         type="number"
                         value={sugarLevel}
                         onChange={(e) => setSugarLevel(e.target.value)}
@@ -513,7 +510,7 @@ const PatientDashboard = () => {
                     </div>
                     <div>
                       <label className="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Steps Walked</label>
-                      <input 
+                      <input
                         type="number"
                         value={steps}
                         onChange={(e) => setSteps(e.target.value)}
@@ -528,7 +525,7 @@ const PatientDashboard = () => {
                 <div className="space-y-md">
                   <div>
                     <label className="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Report Title</label>
-                    <input 
+                    <input
                       required
                       type="text"
                       value={title}
@@ -539,7 +536,7 @@ const PatientDashboard = () => {
                   </div>
                   <div>
                     <label className="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Doctor Name</label>
-                    <input 
+                    <input
                       required
                       type="text"
                       value={doctorName}
@@ -550,7 +547,7 @@ const PatientDashboard = () => {
                   </div>
                   <div>
                     <label className="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Diagnosis Details</label>
-                    <textarea 
+                    <textarea
                       required
                       value={diagnosis}
                       onChange={(e) => setDiagnosis(e.target.value)}
@@ -560,7 +557,7 @@ const PatientDashboard = () => {
                   </div>
                   <div>
                     <label className="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Recommendations & Prescription</label>
-                    <textarea 
+                    <textarea
                       value={recommendations}
                       onChange={(e) => setRecommendations(e.target.value)}
                       placeholder="Meds prescribed, resting advice..."

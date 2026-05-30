@@ -315,33 +315,30 @@ const AuthPage = () => {
           {/* Dynamic Patient Fields */}
           {mode === 'register' && role === 'patient' && (
             <div className="space-y-md border-t border-outline-variant pt-md">
-              <div className="grid grid-cols-2 gap-md">
-                <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+                <div className={isAvailableToDonate ? "" : "md:col-span-2"}>
                   <label className="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Blood Type</label>
                   <select 
                     value={bloodType}
                     onChange={(e) => setBloodType(e.target.value)}
                     className="w-full h-12 px-md border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none bg-surface-container-lowest"
                   >
-                    <option>A+</option>
-                    <option>A-</option>
-                    <option>B+</option>
-                    <option>B-</option>
-                    <option>AB+</option>
-                    <option>AB-</option>
-                    <option>O+</option>
-                    <option>O-</option>
+                    {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(type => (
+                      <option key={type} value={type}>{type}</option>
+                    ))}
                   </select>
                 </div>
-                <div>
-                  <label className="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Last Donation</label>
-                  <input 
-                    value={lastDonationDate}
-                    onChange={(e) => setLastDonationDate(e.target.value)}
-                    className="w-full h-12 px-md border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none" 
-                    type="date"
-                  />
-                </div>
+                {isAvailableToDonate && (
+                  <div>
+                    <label className="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Last Donation Date</label>
+                    <input 
+                      value={lastDonationDate}
+                      onChange={(e) => setLastDonationDate(e.target.value)}
+                      className="w-full h-12 px-md border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" 
+                      type="date"
+                    />
+                  </div>
+                )}
               </div>
               <div className="flex items-center justify-between p-md bg-secondary-container/10 rounded-lg border border-secondary/20">
                 <div>

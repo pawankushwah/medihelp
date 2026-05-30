@@ -11,6 +11,7 @@ const SideNavBar = ({ onAddRecordClick }) => {
 
   const [isBloodModalOpen, setIsBloodModalOpen] = useState(false);
   const [pushStatus, setPushStatus] = useState('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const enablePush = async () => {
     try {
@@ -90,8 +91,25 @@ const SideNavBar = ({ onAddRecordClick }) => {
       : 'Medical Institution';
 
   return (
-    <aside className="h-full w-64 fixed left-0 top-0 flex flex-col py-lg px-md bg-surface-container-lowest border-r border-outline-variant z-50">
-      <div className="mb-xl px-sm text-left">
+    <>
+      {/* Mobile Hamburger Button */}
+      <button 
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        className="md:hidden fixed top-3 left-4 z-[70] h-10 w-10 bg-surface-container-low border border-outline-variant rounded-lg flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors clinic-shadow"
+      >
+        <span className="material-symbols-outlined">{isMobileMenuOpen ? 'close' : 'menu'}</span>
+      </button>
+
+      {/* Mobile Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-on-surface/40 backdrop-blur-sm z-[55]" 
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      <aside className={`h-full w-64 fixed left-0 top-0 flex flex-col py-lg px-md bg-surface-container-lowest border-r border-outline-variant z-[60] transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
+        <div className="mb-xl px-sm text-left pt-6 md:pt-0">
         <h1 className="font-headline-sm text-headline-sm font-bold text-primary">Medihelp</h1>
         <p className="text-on-surface-variant font-body-sm capitalize">{roleLabel}</p>
       </div>
@@ -209,6 +227,7 @@ const SideNavBar = ({ onAddRecordClick }) => {
         onClose={() => setIsBloodModalOpen(false)} 
       />
     </aside>
+    </>
   );
 };
 
