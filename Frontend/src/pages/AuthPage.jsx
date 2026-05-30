@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -63,7 +63,7 @@ const AuthPage = () => {
 
     try {
       if (mode === 'signin') {
-        const response = await axios.post('http://localhost:5000/auth/login', {
+        const response = await api.post('/auth/login', {
           email,
           password
         });
@@ -125,7 +125,7 @@ const AuthPage = () => {
           };
         }
 
-        const response = await axios.post('http://localhost:5000/auth/register', payload);
+        const response = await api.post('/auth/register', payload);
 
         if (response.data.status === 'success') {
           setSuccessMsg('Account created successfully! Redirecting...');

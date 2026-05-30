@@ -3,6 +3,7 @@ import AuthPage from './pages/AuthPage';
 import PatientDashboard from './pages/PatientDashboard';
 import DoctorDashboard from './pages/DoctorDashboard';
 import InstitutionDashboard from './pages/InstitutionDashboard';
+import LiveMapPage from './pages/LiveMapPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import PushTester from './PushTester';
 import './App.css';
@@ -40,6 +41,16 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['institution']}>
               <InstitutionDashboard />
+            </ProtectedRoute>
+          } 
+        />
+
+        {/* Global Live Map Route */}
+        <Route 
+          path="/live-map" 
+          element={
+            <ProtectedRoute allowedRoles={['patient', 'doctor', 'institution']}>
+              <LiveMapPage />
             </ProtectedRoute>
           } 
         />

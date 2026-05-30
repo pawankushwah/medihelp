@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import SideNavBar from '../components/SideNavBar';
 import TopAppBar from '../components/TopAppBar';
 
@@ -15,29 +15,26 @@ const InstitutionDashboard = () => {
 
   const fetchInstitutionAndDonors = async () => {
     const token = localStorage.getItem('token');
-    if (!token) return;
-
     try {
       setLoading(true);
       setErrorMsg('');
 
-      // 1. Fetch current institution profile
-      const meResponse = await axios.get('http://localhost:5000/auth/me', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // Fetch current institution profile
+      const meResponse = await api.get('/auth/me');
+      let instLng = 0;
+      let instLat = 0;
       if (meResponse.data.user) {
         setInstitutionInfo(meResponse.data.user);
+        if (meResponse.data.user.location?.coordinates) {
+            instLng = meResponse.data.user.location.coordinates[0];
+            instLat = meResponse.data.user.location.coordinates[1];
+        }
       }
 
-      // 2. Fetch all users from seeUsers to find blood donors
-      const usersResponse = await axios.get('http://localhost:5000/seeUsers');
+      // Fetch active blood donors globally (using a massive radius of 50,000km for demo purposes to get all)
+      const usersResponse = await api.get(`/blood-request/donors?lng=${instLng}&lat=${instLat}&distance=50000000`);
       if (usersResponse.data.status === 'success') {
-        // Filter to only patients who are active donors
-        const filteredDonors = usersResponse.data.data.filter(user => 
-          user.role === 'patient' && 
-          user.patientProfile?.isAvailableToDonate === true
-        );
-        setDonors(filteredDonors);
+        setDonors(usersResponse.data.data);
       }
     } catch (error) {
       console.error('Error loading institution data:', error);
@@ -119,7 +116,7 @@ const InstitutionDashboard = () => {
               
               {/* Primary Panel: Blood Donor Registry */}
               <div className="col-span-12 lg:col-span-8 space-y-lg">
-                <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant clinic-shadow">
+                <div id="patient-search" className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant clinic-shadow">
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-md border-b border-outline-variant pb-md mb-lg">
                     <div>
                       <h3 className="font-headline-sm text-headline-sm text-primary flex items-center gap-xs">
@@ -212,7 +209,7 @@ const InstitutionDashboard = () => {
 
               {/* Sidebar Panel: Institution Summary */}
               <div className="col-span-12 lg:col-span-4 space-y-lg">
-                <div className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden clinic-shadow">
+                <div id="profile" className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden clinic-shadow">
                   <div className="h-24 bg-tertiary relative">
                     <img 
                       alt="Institution details background" 

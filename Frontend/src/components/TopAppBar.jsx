@@ -26,34 +26,34 @@ const TopAppBar = ({ onSearchChange, searchPlaceholder = "Search records..." }) 
   };
 
   return (
-    <header className="flex justify-between items-center w-full h-16 px-gutter ml-64 max-w-[calc(100%-16rem)] fixed top-0 bg-surface border-b border-outline-variant z-40 bg-surface-container-lowest">
+    <header className="flex justify-between items-center w-full h-16 px-gutter max-w-[calc(100%-16rem)] fixed top-0 bg-surface border-b border-outline-variant z-40 bg-surface-container-lowest">
       <div className="flex items-center gap-md">
         <span className="font-headline-sm text-headline-sm font-bold text-primary">Medihelp</span>
         {getRoleBadge()}
       </div>
-      
+
       <div className="flex items-center gap-lg">
         {onSearchChange && (
           <div className="relative hidden lg:block">
-            <input 
+            <input
               onChange={onSearchChange}
-              className="bg-surface-container-low border border-outline-variant rounded-full py-xs px-xl text-body-sm w-64 focus:ring-primary focus:border-primary focus:outline-none transition-all duration-200" 
+              className="bg-surface-container-low border border-outline-variant rounded-full py-xs px-xl text-body-sm w-64 focus:ring-primary focus:border-primary focus:outline-none transition-all duration-200"
               placeholder={searchPlaceholder}
               type="text"
             />
             <span className="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
           </div>
         )}
-        
+
         <div className="flex items-center gap-md text-on-surface-variant">
           <span className="font-label-md text-label-md hover:text-primary cursor-pointer transition-colors">Support</span>
           <button className="material-symbols-outlined hover:text-primary transition-colors">notifications</button>
           <button className="material-symbols-outlined hover:text-primary transition-colors">help</button>
-          
+
           <div className="h-8 w-8 rounded-full bg-primary-fixed overflow-hidden border border-outline-variant">
-            <img 
-              alt="User profile" 
-              className="w-full h-full object-cover" 
+            <img
+              alt="User profile"
+              className="w-full h-full object-cover"
               src={getAvatarUrl()}
             />
           </div>

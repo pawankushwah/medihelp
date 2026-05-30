@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import SideNavBar from '../components/SideNavBar';
 import TopAppBar from '../components/TopAppBar';
 
@@ -27,9 +27,7 @@ const DoctorDashboard = () => {
 
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/auth/me', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await api.get('/auth/me');
       if (response.data.user) {
         setDoctorInfo(response.data.user);
       }
@@ -56,12 +54,8 @@ const DoctorDashboard = () => {
     setSearchedPatient(null);
     setPatientLogs([]);
 
-    const token = localStorage.getItem('token');
-
     try {
-      const response = await axios.get(`http://localhost:5000/doctor/search-patient?searchKey=${encodeURIComponent(searchKey)}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await api.get(`/doctor/search-patient?searchKey=${encodeURIComponent(searchKey)}`);
 
       if (response.data.status === 'success') {
         const { patient, logs } = response.data;
@@ -86,16 +80,12 @@ const DoctorDashboard = () => {
     setReviewSuccess('');
     setReviewError('');
 
-    const token = localStorage.getItem('token');
-
     try {
-      const response = await axios.post('http://localhost:5000/doctor/review', {
+      const response = await api.post('/doctor/review', {
         patientId: searchedPatient.id,
         comments,
         prescription,
         followUpDate
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
       });
 
       if (response.data.status === 'success') {
@@ -170,7 +160,7 @@ const DoctorDashboard = () => {
               <div className="col-span-12 lg:col-span-8 space-y-lg">
                 
                 {/* Patient Search Section */}
-                <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant clinic-shadow">
+                <div id="patient-search" className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant clinic-shadow">
                   <h3 className="font-headline-sm text-headline-sm text-primary mb-md flex items-center gap-xs">
                     <span className="material-symbols-outlined text-[26px]">person_search</span>
                     Lookup Patient Record
@@ -213,7 +203,7 @@ const DoctorDashboard = () => {
 
                 {/* Searched Patient Result File */}
                 {searchedPatient && (
-                  <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant clinic-shadow animate-in fade-in slide-in-from-bottom-2 duration-300">
+                  <div id="health-records" className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant clinic-shadow animate-in fade-in slide-in-from-bottom-2 duration-300">
                     <div className="border-b border-outline-variant pb-md mb-lg flex justify-between items-center">
                       <div>
                         <h4 className="font-headline-sm text-headline-sm text-on-surface flex items-center gap-xs">
@@ -354,7 +344,7 @@ const DoctorDashboard = () => {
 
               {/* Sidebar Panel: Doctor Profile Summary */}
               <div className="col-span-12 lg:col-span-4 space-y-lg">
-                <div className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden clinic-shadow">
+                <div id="profile" className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden clinic-shadow">
                   <div className="h-24 bg-secondary relative">
                     <img 
                       alt="Medical clinic" 

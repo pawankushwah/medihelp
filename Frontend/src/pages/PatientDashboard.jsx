@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import SideNavBar from '../components/SideNavBar';
 import TopAppBar from '../components/TopAppBar';
 
@@ -38,18 +38,14 @@ const PatientDashboard = () => {
     try {
       setLoading(true);
       // Fetch current authenticated user
-      const meResponse = await axios.get('http://localhost:5000/auth/me', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const meResponse = await api.get('/auth/me');
       if (meResponse.data.user) {
         setUser(meResponse.data.user);
         setIsAvailableToDonate(meResponse.data.user.patientProfile?.isAvailableToDonate || false);
       }
 
       // Fetch health history
-      const historyResponse = await axios.get('http://localhost:5000/health/history', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const historyResponse = await api.get('/health/history');
       if (historyResponse.data.status === 'success') {
         setLogs(historyResponse.data.data);
       }
@@ -90,8 +86,7 @@ const PatientDashboard = () => {
     // If there is an API to update profiles we would hit it here, otherwise keep in local state
     // We will build a profile update backend endpoint in a later step to persist this change!
     try {
-      const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/health/log', {
+      await api.post('/health/log', {
         logType: 'medical_summary',
         summaryData: {
           title: "Donation Status Update",
@@ -99,13 +94,9 @@ const PatientDashboard = () => {
           diagnosis: `Updated blood donor availability status to: ${nextStatus ? 'Available' : 'Unavailable'}`,
           recommendations: `Blood Type: ${user?.patientProfile?.bloodType || 'O+'}`
         }
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
       });
       // Refresh logs
-      const historyResponse = await axios.get('http://localhost:5000/health/history', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const historyResponse = await api.get('/health/history');
       if (historyResponse.data.status === 'success') {
         setLogs(historyResponse.data.data);
       }
@@ -146,9 +137,7 @@ const PatientDashboard = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/health/log', payload, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await api.post('/health/log', payload);
 
       if (response.data.status === 'success') {
         setModalSuccess('Record saved successfully!');
@@ -265,7 +254,7 @@ const PatientDashboard = () => {
                 </div>
 
                 {/* Recent Activity Section */}
-                <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant clinic-shadow">
+                <div id="health-records" className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant clinic-shadow">
                   <div className="flex items-center justify-between mb-lg">
                     <h3 className="font-headline-sm text-headline-sm text-on-surface">Medical & Health Timeline</h3>
                     <span className="text-on-surface-variant font-body-sm">Showing {filteredLogs.length} items</span>
@@ -356,7 +345,7 @@ const PatientDashboard = () => {
               <div className="col-span-12 lg:col-span-4 space-y-lg">
                 
                 {/* Profile Card */}
-                <div className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden clinic-shadow">
+                <div id="profile" className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden clinic-shadow">
                   <div className="h-24 bg-secondary relative">
                     <img 
                       alt="Clinic Office" 
