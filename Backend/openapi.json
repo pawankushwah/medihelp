@@ -23,27 +23,37 @@
     "/health": {
       "get": {
         "summary": "Health check",
-        "tags": ["General"],
+        "tags": [
+          "General"
+        ],
         "security": [],
         "responses": {
-          "200": { "description": "Server is running smoothly" }
+          "200": {
+            "description": "Server is running smoothly"
+          }
         }
       }
     },
     "/seeUsers": {
       "get": {
         "summary": "Get all users (for testing)",
-        "tags": ["General"],
+        "tags": [
+          "General"
+        ],
         "security": [],
         "responses": {
-          "200": { "description": "List of users" }
+          "200": {
+            "description": "List of users"
+          }
         }
       }
     },
     "/auth/register": {
       "post": {
         "summary": "Register a new user",
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "security": [],
         "requestBody": {
           "required": true,
@@ -52,32 +62,64 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": { "type": "string" },
-                  "email": { "type": "string" },
-                  "password": { "type": "string" },
-                  "phone": { "type": "string" },
-                  "role": { "type": "string", "enum": ["patient", "doctor", "institution"] },
-                  "city": { "type": "string" },
-                  "patientProfile": { 
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "patient",
+                      "doctor",
+                      "institution"
+                    ]
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "patientProfile": {
                     "type": "object",
                     "properties": {
-                      "bloodType": { "type": "string" },
-                      "isAvailableToDonate": { "type": "boolean" },
-                      "lastDonationDate": { "type": "string", "format": "date" }
+                      "bloodType": {
+                        "type": "string"
+                      },
+                      "isAvailableToDonate": {
+                        "type": "boolean"
+                      },
+                      "lastDonationDate": {
+                        "type": "string",
+                        "format": "date"
+                      }
                     }
                   },
                   "doctorProfile": {
                     "type": "object",
                     "properties": {
-                      "specialization": { "type": "string" },
-                      "availabilitySlots": { "type": "string" }
+                      "specialization": {
+                        "type": "string"
+                      },
+                      "availabilitySlots": {
+                        "type": "string"
+                      }
                     }
                   },
                   "institutionProfile": {
                     "type": "object",
                     "properties": {
-                      "institutionType": { "type": "string" },
-                      "registrationNumber": { "type": "string" }
+                      "institutionType": {
+                        "type": "string"
+                      },
+                      "registrationNumber": {
+                        "type": "string"
+                      }
                     }
                   }
                 }
@@ -86,14 +128,18 @@
           }
         },
         "responses": {
-          "201": { "description": "User registered successfully" }
+          "201": {
+            "description": "User registered successfully"
+          }
         }
       }
     },
     "/auth/login": {
       "post": {
         "summary": "Login user",
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "security": [],
         "requestBody": {
           "required": true,
@@ -102,40 +148,56 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "email": { "type": "string" },
-                  "password": { "type": "string" }
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "Login successful" }
+          "200": {
+            "description": "Login successful"
+          }
         }
       }
     },
     "/auth/me": {
       "get": {
         "summary": "Get current authenticated user",
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "responses": {
-          "200": { "description": "Returns user info" }
+          "200": {
+            "description": "Returns user info"
+          }
         }
       }
     },
     "/auth/patient-dashboard": {
       "get": {
         "summary": "Patient dashboard portal",
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "responses": {
-          "200": { "description": "Welcome message for patient" }
+          "200": {
+            "description": "Welcome message for patient"
+          }
         }
       }
     },
     "/health/log": {
       "post": {
         "summary": "Create a health log (patient only)",
-        "tags": ["Health"],
+        "tags": [
+          "Health"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -143,50 +205,74 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "logType": { "type": "string", "enum": ["vitals", "medical_summary"] },
-                  "vitalsData": { "type": "object" },
-                  "summaryData": { "type": "object" }
+                  "logType": {
+                    "type": "string",
+                    "enum": [
+                      "vitals",
+                      "medical_summary"
+                    ]
+                  },
+                  "vitalsData": {
+                    "type": "object"
+                  },
+                  "summaryData": {
+                    "type": "object"
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "201": { "description": "Log created" }
+          "201": {
+            "description": "Log created"
+          }
         }
       }
     },
     "/health/history": {
       "get": {
         "summary": "Get health history logs (patient only)",
-        "tags": ["Health"],
+        "tags": [
+          "Health"
+        ],
         "responses": {
-          "200": { "description": "List of health logs" }
+          "200": {
+            "description": "List of health logs"
+          }
         }
       }
     },
     "/doctor/search-patient": {
       "get": {
         "summary": "Search patient records (doctor only)",
-        "tags": ["Doctor"],
+        "tags": [
+          "Doctor"
+        ],
         "parameters": [
           {
             "name": "searchKey",
             "in": "query",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "Username, email or phone of the patient"
           }
         ],
         "responses": {
-          "200": { "description": "Patient records and logs" }
+          "200": {
+            "description": "Patient records and logs"
+          }
         }
       }
     },
     "/doctor/review": {
       "post": {
         "summary": "Create doctor review (doctor only)",
-        "tags": ["Doctor"],
+        "tags": [
+          "Doctor"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -194,17 +280,387 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "patientId": { "type": "string" },
-                  "comments": { "type": "string" },
-                  "prescription": { "type": "string" },
-                  "followUpDate": { "type": "string" }
+                  "patientId": {
+                    "type": "string"
+                  },
+                  "comments": {
+                    "type": "string"
+                  },
+                  "prescription": {
+                    "type": "string"
+                  },
+                  "followUpDate": {
+                    "type": "string"
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "201": { "description": "Review created" }
+          "201": {
+            "description": "Review created"
+          }
+        }
+      }
+    },
+    "/blood-request": {
+      "post": {
+        "summary": "Create a blood request",
+        "tags": [
+          "Blood Request"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bloodGroupRequired": {
+                    "type": "string"
+                  },
+                  "priority": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high",
+                      "urgent"
+                    ]
+                  },
+                  "unitsRequired": {
+                    "type": "number"
+                  },
+                  "coordinates": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "description": "[lng, lat]"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Request created"
+          }
+        }
+      }
+    },
+    "/blood-request/nearby": {
+      "get": {
+        "summary": "Get nearby active blood requests",
+        "tags": [
+          "Blood Request"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lng",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "distance",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "default": 50000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of requests"
+          }
+        }
+      }
+    },
+    "/blood-request/donors": {
+      "get": {
+        "summary": "Get nearby available donors",
+        "tags": [
+          "Blood Request"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lng",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "distance",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "default": 50000
+            }
+          },
+          {
+            "name": "bloodType",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of donors"
+          }
+        }
+      }
+    },
+    "/doctor-tasks": {
+      "get": {
+        "summary": "Get doctor tasks",
+        "tags": [
+          "Doctor Tasks"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of tasks"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create doctor task",
+        "tags": [
+          "Doctor Tasks"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "taskType": {
+                    "type": "string"
+                  },
+                  "patientId": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "dueDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task created"
+          }
+        }
+      }
+    },
+    "/doctor-tasks/{id}/status": {
+      "patch": {
+        "summary": "Update task status",
+        "tags": [
+          "Doctor Tasks"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "pending",
+                      "in_progress",
+                      "completed"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Task updated"
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "get": {
+        "summary": "Get notifications",
+        "tags": [
+          "Notifications"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of notifications"
+          }
+        }
+      }
+    },
+    "/notifications/{id}/read": {
+      "patch": {
+        "summary": "Mark notification as read",
+        "tags": [
+          "Notifications"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification updated"
+          }
+        }
+      }
+    },
+    "/notifications/vapidPublicKey": {
+      "get": {
+        "summary": "Get VAPID public key",
+        "tags": [
+          "Notifications"
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns public key"
+          }
+        }
+      }
+    },
+    "/notifications/subscribe": {
+      "post": {
+        "summary": "Subscribe to web push notifications",
+        "tags": [
+          "Notifications"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "string"
+                  },
+                  "keys": {
+                    "type": "object",
+                    "properties": {
+                      "p256dh": {
+                        "type": "string"
+                      },
+                      "auth": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Subscribed"
+          }
         }
       }
     }
