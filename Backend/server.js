@@ -9,7 +9,6 @@ const bloodRequestRoutes = require('./Routes/BloodRequestRoute');
 const doctorTaskRoutes = require('./Routes/DoctorTaskRoute');
 const notificationRoutes = require('./Routes/NotificationRoute');
 
-const { apiReference } = require('@scalar/express-api-reference');
 const { initRealtime } = require('./Config/realtime');
 const http = require('http');
 
@@ -29,13 +28,22 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Scalar API Reference
-app.use('/docs', apiReference({
-    theme: 'default',
-    spec: {
-        content: openapiSpec,
-    },
-}));
+// Scalar API Reference (Dynamic Import to fix Vercel ESM Error)
+app.use('/docs', async (req, res, next) => {
+    try {
+        const { apiReference } = await import('@scalar/express-api-reference');
+        const middleware = apiReference({
+            theme: 'default',
+            spec: {
+                content: openapiSpec,
+            },
+        });
+        return middleware(req, res, next);
+    } catch (error) {
+        console.error('Failed to load Scalar API Reference:', error);
+        next(error);
+    }
+});
 
 app.get('/health', (req, res) => {
     res.status(200).json({
