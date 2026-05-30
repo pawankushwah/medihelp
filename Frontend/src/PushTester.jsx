@@ -19,12 +19,13 @@ const PushTester = () => {
         }
         return outputArray;
     }
+    const API_URL = import.meta.env.API_BASE_URL || 'http://localhost:5000';
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setStatus('Logging in...');
         try {
-            const res = await fetch('http://localhost:5000/auth/login', {
+            const res = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
@@ -55,7 +56,7 @@ const PushTester = () => {
             await navigator.serviceWorker.ready;
 
             setStatus('Fetching VAPID Key...');
-            const vapidRes = await fetch('http://localhost:5000/notifications/vapidPublicKey');
+            const vapidRes = await fetch(`${API_URL}/notifications/vapidPublicKey`);
             const vapidData = await vapidRes.json();
             const convertedVapidKey = urlBase64ToUint8Array(vapidData.publicKey);
 
@@ -66,7 +67,7 @@ const PushTester = () => {
             });
 
             setStatus('Saving Subscription to Backend...');
-            const saveRes = await fetch('http://localhost:5000/notifications/subscribe', {
+            const saveRes = await fetch(`${API_URL}/notifications/subscribe`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -91,7 +92,7 @@ const PushTester = () => {
     const triggerTestPush = async () => {
         try {
             setStatus('Triggering Push...');
-            await fetch('http://localhost:5000/notifications/testPush', {
+            await fetch(`${API_URL}/notifications/testPush`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             setStatus('Push Sent! Did you see it?');
@@ -104,7 +105,7 @@ const PushTester = () => {
         <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '8px', margin: '20px 0', backgroundColor: '#242424' }}>
             <h2>Web Push Tester</h2>
             <p style={{ color: '#4ade80' }}>Status: {status}</p>
-            
+
             {!token ? (
                 <form onSubmit={handleLogin} style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
                     <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
